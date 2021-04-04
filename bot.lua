@@ -3,8 +3,8 @@ local client = discordia.Client()
 local http = require('coro-http')
 local json = require('json')
 local config = {
-  ['token'] = "Bot discord-token-here",
-  ['api'] = 'youtube-api-key'
+  ['token'] = "Bot ODI4Mjk3MTA4Nzg0MjgzNjQ4.YGnhyw.NKwZsOQpwzcfkBGfRh9kN6AaQao",
+  ['api'] = 'AIzaSyDcsRaiS4cdv6yma3l22Qe6eMbM_1h76t0'
 }
 
 math.randomseed(os.time())
@@ -12,6 +12,17 @@ math.randomseed(os.time())
 function gfiscalling(data)
   data.channel:send('Hold on '..data.author.username..', my girlfriend is calling.')  
   return false
+end
+function Money_f(n)
+  if n >= 10^9 then
+    return string.format("%.2fB", n / 10^9)
+  elseif n >= 10^6 then
+    return string.format("%.2fM", n / 10^6)
+  elseif n >= 10^3 then
+    return string.format("%.2fK", n / 10^3)
+  else
+      return tostring(n)
+  end
 end
 
 function string:split(sep)
@@ -37,9 +48,9 @@ function GetStatsById(message, id)
             icon_url = data.items[1].snippet.thumbnails.default.url
           },
           fields = {
-            {name = "Video Count", value = data.items[1].statistics.videoCount, inline = true},
-            {name = "Subscribers", value = data.items[1].statistics.subscriberCount, inline = true},
-            {name = "View Count", value = data.items[1].statistics.viewCount, inline = true},
+            {name = "Video Count", value = Money_f(tonumber(data.items[1].statistics.videoCount)), inline = true},
+            {name = "Subscribers", value = Money_f(tonumber(data.items[1].statistics.subscriberCount)), inline = true},
+            {name = "View Count", value = Money_f(tonumber(data.items[1].statistics.viewCount)), inline = true},
           },
           footer = {
             text = "This channel was created on "..string.sub(data.items[1].snippet.publishedAt, 1, 10)
@@ -134,6 +145,11 @@ end
         fields = {
           {name = "Evol.id", value = "Example: \n Evol.id UCtcEk5zYxxPQb-vtAL5o_8Q", inline = true},
           {name = "Evol.user", value = "Example: \n Evol.user EvolNutz", inline = true},
+          {
+            name = "⠀",
+            value = "[Source](https://github.com/REDRUM112/EvolNutz-Discord-Bot/blob/main/bot.lua)",
+            inline = false
+          }
         },
         footer = {
           text = "This bot was made by REDRUM#9269"
@@ -145,10 +161,20 @@ end
   if args[1] == "Evol.purge" or args[1] == 'Evol.Purge' or args[1] == 'evol.purge' or args[1] == 'evol.Purge' or args[1] == 'e.p' or args[1] == 'E.P' or args[1] == 'e.P' or args[1] == 'E.p' then
     local isStaff = message.member:hasPermission("administrator")
     if isStaff == true then
-    MG = message.channel:getMessages(100)
-    message.channel:bulkDelete(MG)
+      if args[2] then
+        if type(tonumber(args[2])) == 'number' then
+          MG = message.channel:getMessages(tonumber(args[2]))
+          message.channel:bulkDelete(MG)
+        else
+          message.channel:send(message.author.username..', the second argument is not a number.')
+          return false
+        end
+      else
+        message.channel:send(message.author.username..', you are missing the number argument.')
+        return false
+      end
     else
-      message.channel:send(message.author.username..', You have to be GM to do this.')
+      message.channel:send(message.author.username..', you have to be GM to do this.')
         return false
     end
   end
