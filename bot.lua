@@ -3,8 +3,8 @@ local client = discordia.Client()
 local http = require('coro-http')
 local json = require('json')
 local config = {
-  ['token'] = "Bot ODI4Mjk3MTA4Nzg0MjgzNjQ4.YGnhyw.NKwZsOQpwzcfkBGfRh9kN6AaQao",
-  ['api'] = 'AIzaSyDcsRaiS4cdv6yma3l22Qe6eMbM_1h76t0'
+  ['token'] = "",
+  ['api'] = ""
 }
 
 math.randomseed(os.time())
