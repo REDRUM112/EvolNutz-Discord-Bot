@@ -93,6 +93,7 @@ end
 
 client:on('ready', function()
 	print('Logged in as '.. client.user.username)
+	client:setGame("Evol.Help to get started.")
 end)
 
 client:on('messageCreate', function(message)
